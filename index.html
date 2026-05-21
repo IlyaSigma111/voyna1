@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Гражданская война в России 1917–1922 | Стекло & Параллакс</title>
+    <!-- Подключение современного шрифта и нормализации -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 10% 20%, rgba(15, 25, 35, 1) 0%, rgba(8, 12, 20, 1) 100%);
+            color: #f0f3f8;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Параллакс контейнеры */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            z-index: -2;
+            background-image: url('https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?auto=compress&cs=tinysrgb&w=1600');
+            background-size: cover;
+            background-position: center 20%;
+            background-repeat: no-repeat;
+            opacity: 0.2;
+            transform: translateY(0px);
+            transition: transform 0.1s cubic-bezier(0.2, 0.1, 0, 1);
+            filter: blur(3px) brightness(0.6);
+        }
+
+        .parallax-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.75) 100%);
+            z-index: -1;
+        }
+
+        /* Основная сетка с эффектом стекла */
+        .glass-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 2rem 5rem;
+            position: relative;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Стекломорфные карточки / секции */
+        .glass-card {
+            background: rgba(20, 28, 40, 0.35);
+            backdrop-filter: blur(12px);
+            border-radius: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 4rem;
+            padding: 2.5rem;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 45px -15px rgba(0,0,0,0.5);
+            border-color: rgba(255,255,255,0.35);
+            background: rgba(25, 34, 48, 0.45);
+        }
+
+        /* Заголовки */
+        h1 {
+            font-size: 4.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFFFFF 0%, #C0D4FF 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            border-left: 5px solid #ffb347;
+            padding-left: 1.2rem;
+            letter-spacing: -0.3px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin: 1.5rem 0 1rem;
+            color: #FFE0B5;
+        }
+
+        .subhead {
+            font-size: 1.2rem;
+            color: #CDE1FF;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            border-bottom: 1px dashed rgba(255,255,255,0.3);
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            line-height: 1.65;
+            margin-bottom: 1.2rem;
+            font-weight: 400;
+            color: #f0f4fe;
+        }
+
+        /* Сетка для причин */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin-top: 1.8rem;
+        }
+
+        .reason-item {
+            background: rgba(10, 18, 28, 0.55);
+            backdrop-filter: blur(6px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,215,150,0.25);
+            transition: all 0.2s;
+        }
+
+        .reason-item strong {
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 0.6rem;
+            color: #FFD966;
+        }
+
+        /* Хронология */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .timeline-event {
+            background: rgba(0,0,0,0.35);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.5rem;
+            border-left: 6px solid #ff8c42;
+            transition: transform 0.2s;
+        }
+
+        .timeline-event .date {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #FFB86C;
+            letter-spacing: 0.3px;
+        }
+
+        /* Карта сторон (две колонки) */
+        .sides {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        .side {
+            flex: 1;
+            min-width: 240px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(4px);
+        }
+        .side h4 {
+            font-size: 1.7rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        .red { border-top: 4px solid #D32F2F; }
+        .white { border-top: 4px solid #E0E0E0; }
+        .green { border-top: 4px solid #4CAF50; }
+
+        /* Эффект параллакс для текста при скролле (динамически через js) */
+        .parallax-text {
+            transition: transform 0.2s ease-out;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0 1rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.2);
+            border-radius: 2rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 760px) {
+            .glass-container {
+                padding: 1.2rem;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .glass-card {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            h2 {
+                font-size: 1.7rem;
+            }
+        }
+
+        /* Добавим анимацию появления */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s ease;
+        }
+        .fade-up.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Кнопка наверх */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(255,255,245,0.2);
+            backdrop-filter: blur(12px);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.4);
+            transition: 0.2s;
+            z-index: 100;
+        }
+        .scroll-top:hover {
+            background: rgba(255,180,80,0.6);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="parallax-bg" id="parallaxBg"></div>
+<div class="parallax-overlay"></div>
+
+<div class="glass-container">
+    <!-- Hero секция -->
+    <div class="glass-card fade-up" style="text-align: center; margin-top: 1rem;">
+        <h1>Гражданская война в России<br>1917–1922</h1>
+        <div class="subhead">Брат против брата — эпоха раскола, трагедии и перемен</div>
+        <p style="max-width: 800px; margin: 1rem auto 0;">Кровопролитнейший конфликт, определивший судьбу страны на десятилетия вперёд. 
+        Причины, ключевые события и последствия — взгляд сквозь историческую призму.</p>
+    </div>
+
+    <!-- Причины войны (стекло + сетка) -->
+    <div class="glass-card fade-up" id="causes">
+        <h2>📜 Глубинные причины</h2>
+        <p>Гражданская война не была случайной вспышкой — она стала неизбежным результатом противоречий, накопленных за десятилетия.</p>
+        <div class="reasons-grid">
+            <div class="reason-item">
+                <strong>⚡ Социальный раскол</strong>
+                Резкое имущественное расслоение, аграрный вопрос и нерешённое рабочее движение создали взрывоопасную среду. Крестьянство требовало землю, рабочие — права.
+            </div>
+            <div class="reason-item">
+                <strong>🏛️ Падение монархии</strong>
+                Февральская революция 1917 г. свергла самодержавие, но Временное правительство не смогло удержать власть — создался вакуум, который заполнили радикалы.
+            </div>
+            <div class="reason-item">
+                <strong>🔴 Октябрьский переворот</strong>
+                Захват власти большевиками не был поддержан многими политическими силами. Кадеты, эсеры, меньшевики и монархисты перешли в вооружённую оппозицию.
+            </div>
+            <div class="reason-item">
+                <strong>🌍 Иностранная интервенция</strong>
+                Страны Антанты и Центральных держав поддерживали белые армии, стремясь вернуть Россию в войну или не допустить мировую революцию.
+            </div>
+            <div class="reason-item">
+                <strong>🚩 Политика «военного коммунизма»</strong>
+                Продразвёрстка, национализация и жёсткая централизация вызвали сопротивление крестьянства и казачества, что вылилось в массовые восстания.
+            </div>
+            <div class="reason-item">
+                <strong>⚔️ Распад империи</strong>
+                Национальные окраины (Украина, Финляндия, Прибалтика, Закавказье) объявили независимость, породив множество фронтов и локальных конфликтов.
+            </div>
+        </div>
+    </div>
+
+    <!-- Ход войны: ключевые вехи с параллакс эффектом внутри -->
+    <div class="glass-card fade-up" id="timeline">
+        <h2>⏳ Хроника войны: основные вехи</h2>
+        <div class="timeline">
+            <div class="timeline-event"><span class="date">Ноябрь 1917 — февраль 1918</span> — Первые столкновения на Дону: формирование Добровольческой армии (Ледяной поход).</div>
+            <div class="timeline-event"><span class="date">Май 1918</span> — Мятеж Чехословацкого корпуса, захват Транссиба. Разгорается полномасштабная война.</div>
+            <div class="timeline-event"><span class="date">1919 год</span> — Решающие походы армий Колчака (Восток) и Деникина (Юг). Наступление белых на Москву достигает пика осенью.</div>
+            <div class="timeline-event"><span class="date">1920 год</span> — Разгром Врангеля в Крыму, окончание европейской части войны. Советско-польская война.</div>
+            <div class="timeline-event"><span class="date">1921–1922</span> — Ликвидация басмачества в Средней Азии, завершение войны на Дальнем Востоке (взятие Владивостока).</div>
+        </div>
+        <p style="margin-top: 1rem;">Итогом войны стала победа Красной армии, эмиграция более 2 млн человек и установление советской власти на большей части бывшей империи.</p>
+    </div>
+
+    <!-- Стороны конфликта (красные, белые, зелёные) -->
+    <div class="glass-card fade-up">
+        <h2>⚔️ Противостоящие силы</h2>
+        <div class="sides">
+            <div class="side red">
+                <h4>🔴 Красные (РКП(б))</h4>
+                <p>Большевики под руководством Ленина, Троцкого. Создали регулярную Красную армию, использовали жёсткую мобилизацию и «политический террор». Лозунг: «Пролетарии всех стран, соединяйтесь!».</p>
+            </div>
+            <div class="side white">
+                <h4>⚪ Белое движение</h4>
+                <p>Объединяло монархистов, либералов, офицеров. Главные лидеры: Колчак, Деникин, Юденич, Врангель. Выступали за «единую и неделимую Россию» и Учредительное собрание, но раздирались внутренними противоречиями.</p>
+            </div>
+            <div class="side green">
+                <h4>🌾 Зелёные / Повстанцы</h4>
+                <p>Крестьянские армии (Нестор Махно, Антоновское восстание) воевали и против красных, и против белых. Защищали свои земли от продразвёрстки и реквизиций. Сыграли важную роль в тылах.</p>
+            </div>
+        </div>
+        <p><strong>Иностранные войска:</strong> Чехословацкий корпус, войска США, Японии, Великобритании, Франции — присутствовали в Мурманске, Архангельске, на Дальнем Востоке и юге.</p>
+    </div>
+
+    <!-- Последствия и значение -->
+    <div class="glass-card fade-up">
+        <h2>📉 Последствия и цена победы</h2>
+        <p>Гражданская война стала гуманитарной катастрофой. По разным оценкам, от 7 до 12 миллионов человек погибли в боях, от голода, эпидемий и террора. Промышленность и сельское хозяйство были разрушены, миллионы людей стали беженцами.</p>
+        <p>Политическим итогом стало утверждение однопартийной диктатуры большевиков, создание СССР (1922), массовая эмиграция интеллигенции и «красный террор» как инструмент управления. Война сформировала новую советскую идентичность и предопределила жёсткий централизованный режим на десятилетия.</p>
+        <p style="font-style: italic; border-left: 2px solid #ffb347; padding-left: 1rem;">«Белое дело» пало из-за отсутствия единой стратегии, поддержки населения и внутренних распрей. Гражданская война оставила глубокий рубец в исторической памяти.</p>
+    </div>
+
+    <!-- Дополнительные факты -->
+    <div class="glass-card fade-up">
+        <h2>📖 Важные аспекты и мифы</h2>
+        <p><strong>✧ Роль террора:</strong> Красный террор (официально объявлен в 1918) и белый террор (казни, расстрелы пленных) — символы жестокости войны. <br>
+        <strong>✧ Женщины в войне:</strong> Сотни женщин воевали в рядах красных и белых; известны санитарки, пулемётчицы и разведчицы. <br>
+        <strong>✧ Парадокс:</strong> Крестьянство, составлявшее большинство населения, чаще всего не поддерживало ни одну из сторон, став главной жертвой продразвёрстки и мобилизаций.</p>
+        <p>Сегодня историки сходятся: Гражданская война — трагический узел русской революции, порождённый крайним социальным отчаянием и непримиримостью идеологий.</p>
+    </div>
+
+    <footer>
+        <p>© 2025 • Стекломорфный исторический атлас • Все данные основаны на архивных исследованиях и трудах историков XX–XXI вв.<br>
+        Эффект параллакса: фон движется вместе со скроллом. Проект в память о трагических событиях 1917–1922 годов.</p>
+    </footer>
+</div>
+
+<div class="scroll-top" id="scrollTopBtn" aria-label="Наверх">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</div>
+
+<script>
+    // Эффект параллакса для фонового изображения при скролле (интенсивный, но плавный)
+    const bgElement = document.getElementById('parallaxBg');
+    let ticking = false;
+    let lastScrollY = window.scrollY;
+    
+    function updateParallax() {
+        const scrollY = window.scrollY;
+        // Параллакс двигает фон со скоростью примерно 0.3 от скролла, но с максимальным смещением
+        let translateY = scrollY * 0.25;
+        // Ограничиваем смещение, чтобы фон не уезжал слишком сильно
+        if (translateY > 180) translateY = 180;
+        if (translateY < -30) translateY = -30;
+        bgElement.style.transform = `translateY(${translateY}px)`;
+        ticking = false;
+    }
+
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateParallax();
+                // дополнительно активируем анимацию появления элементов при скролле (интерсектор уже есть, но добавим для повторной проверки)
+                ticking = false;
+            });
+            ticking = true;
+        }
+        lastScrollY = window.scrollY;
+    }
+
+    window.addEventListener('scroll', onScroll);
+    // Вызов при загрузке, чтобы позиция была корректной
+    updateParallax();
+
+    // Intersection Observer для fade-up элементов (появление при скролле)
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appear');
+                // Можно отключить наблюдение после появления, чтобы уменьшить нагрузку
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    
+    fadeElements.forEach(el => observer.observe(el));
+
+    // Дополнительный эффект для карточек — мы уже добавили hover в CSS
+    // Кнопка "наверх"
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Показываем/скрываем кнопку наверх в зависимости от позиции скролла
+    function toggleScrollBtn() {
+        if (window.scrollY > 600) {
+            scrollBtn.style.opacity = '1';
+            scrollBtn.style.visibility = 'visible';
+        } else {
+            scrollBtn.style.opacity = '0.7';
+            scrollBtn.style.visibility = 'visible'; // всегда видна, но можно сделать плавно
+        }
+    }
+    window.addEventListener('scroll', toggleScrollBtn);
+    toggleScrollBtn();
+    
+    // Небольшая дополнительная "магия" параллакса для текстовых элементов (опционально) — легкое движение заголовков
+    const titles = document.querySelectorAll('h2, h1');
+    function textParallax() {
+        const scrolled = window.scrollY;
+        titles.forEach((title, idx) => {
+            const speed = 0.05 + (idx * 0.01);
+            const yOffset = scrolled * speed;
+            if (yOffset < 15) {
+                title.style.transform = `translateY(${yOffset * 0.3}px)`;
+            }
+        });
+    }
+    window.addEventListener('scroll', () => {
+        requestAnimationFrame(textParallax);
+    });
+    textParallax();
+
+    // Добавим плавный переход для всех карточек при загрузке (если не появились сразу)
+    document.querySelectorAll('.fade-up').forEach(el => {
+        // Если элемент уже виден в момент загрузки — запускаем появление вручную
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+            el.classList.add('appear');
+            observer.unobserve(el);
+        }
+    });
+    
+    // Полный ресет для параллакс-фона при изменении размера окна (чтобы не было глюков)
+    window.addEventListener('resize', () => {
+        updateParallax();
+    });
+    
+    // Предотвращение наложения параллакса на мобильных устройствах (оставляем, но сглаживаем)
+    if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        bgElement.style.transition = 'transform 0.05s linear';
+    } else {
+        bgElement.style.transition = 'transform 0.08s cubic-bezier(0.2, 0.3, 0, 1)';
+    }
+</script>
+</body>
+</html>
